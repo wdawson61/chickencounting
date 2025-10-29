@@ -1,0 +1,12 @@
+count_chickens:
+  name: Count Chickens
+  description: Count chickens from a camera snapshot using YOLO detection
+  fields:
+    camera_entity:
+      name: Camera Entity
+      description: The camera entity ID to capture image from
+      required: true
+      example: "camera.chicken_coop"
+      selector:
+        entity:
+          domain: camera

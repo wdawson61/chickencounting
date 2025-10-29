@@ -1,0 +1,11 @@
+{
+  "domain": "chicken_counter",
+  "name": "Chicken Counter",
+  "codeowners": ["@wdawson61"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/wdawson61/chickencounting.git",
+  "iot_class": "local_polling",
+  "requirements": ["ultralytics==8.0.196", "pillow==10.0.0"],
+  "version": "1.0.0"
+}
