@@ -30,31 +30,45 @@ custom_components/
     └── services.yaml
 ```
 
-### 2. Prepare Your YOLO Model
+### 2. Prepare Your YOLO Model (ONNX Format)
 
-You need a YOLOv12 model trained to detect chickens. Options:
+**Important**: This integration uses ONNX format (not PyTorch .pt files) for Python 3.13 compatibility.
 
-**Option A: Train your own model**
+**Step 1: Train or download a YOLO model**
 ```python
 from ultralytics import YOLO
 
-# Start with a pretrained model
+# Option A: Start with a pretrained model
 model = YOLO('yolov8n.pt')
 
-# Train on your chicken dataset
-model.train(data='chickens.yaml', epochs=100)
-
-# Save the model
-model.save('chicken_detector.pt')
+# Option B: Train on your chicken dataset
+# model.train(data='chickens.yaml', epochs=100)
 ```
 
-**Option B: Use a pretrained model**
-- Download a YOLOv8/YOLOv11 model from Ultralytics
-- Fine-tune it or use a generic object detection model (class ID for bird is typically 14 in COCO dataset)
-
-Place your model file somewhere accessible to Home Assistant, e.g.:
+**Step 2: Export to ONNX format**
+```python
+# Export the model to ONNX
+model.export(format='onnx')
+# This creates: yolov8n.onnx
 ```
-/config/models/chicken_detector.pt
+
+**Step 3: Copy to Home Assistant**
+Place your ONNX model file somewhere accessible to Home Assistant:
+```
+/config/models/chicken_detector.onnx
+```
+
+**Quick Start - Use a Pre-trained Model:**
+```bash
+# Download YOLOv8 nano model
+wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt
+
+# Convert to ONNX (requires ultralytics on your computer, not in HA)
+pip install ultralytics
+python -c "from ultralytics import YOLO; YOLO('yolov8n.pt').export(format='onnx')"
+
+# Copy to Home Assistant
+cp yolov8n.onnx /path/to/homeassistant/config/models/
 ```
 
 ### 3. Restart Home Assistant
